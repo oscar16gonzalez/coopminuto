@@ -1,0 +1,297 @@
+<form [formGroup]="form">
+
+  <ng-container *ngIf="productTypeId">
+    <div
+      *ngIf="category.identifier !== 'renovation' && category.identifier !== 'afiliation' && category.identifier !== 'icetex'"
+      class="bg-info text-white mb-3" style="text-align: center;">*Nota: Ten en cuenta que estos valores son aproximados
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-12" *ngIf="!selectTerm">
+        <mat-form-field appearance="outline">
+          <mat-label>Plazo:</mat-label>
+          <mat-select formControlName="term" (selectionChange)="selectPlazo($event)">
+            <mat-option *ngFor="let t of termList" [value]="t.id">
+              {{ t.term }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngFor="let validation of validations.term">
+            <mat-error class="error-message"
+              *ngIf="form.get('term').hasError(validation.type) && (form.get('term').dirty || form.get('term').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="this.category.identifier === 'afiliation' && fixedFeeAndFixedCosts > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Total primera cuota:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Total primera cuota " formControlName="fixedFeeAndFixedCosts" type="text"
+            [(ngModel)]="fixedFeeAndFixedCosts" readonly="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="this.category.identifier !== 'icetex' && monthlyFee > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Total cuota fija mensual:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Total cuota fija mensual" type="text" formControlName="monthlyFee" [(ngModel)]="monthlyFee">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="interestPercent > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Interés:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '', suffix: '%', thousands: '.', decimal: ',' }"
+            placeholder="Interés" type="text" formControlName="interestPercent" [(ngModel)]="interestPercent"
+            readonly="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="false">
+        <mat-form-field appearance="outline">
+          <mat-label>Monto Total:</mat-label>
+          <input matInput placeholder="Monto Total" type="text" [value]="" readonly="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="guaranteeValueVat > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Aval:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Aval" formControlName="guaranteeValueVat" type="text" [(ngModel)]="guaranteeValueVat"
+            readonly="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="totalGuarantee > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Fondo de garantias:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Fondo de garantia" type="text" formControlName="totalGuarantee" [(ngModel)]="totalGuarantee"
+            readonly="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="creditStudy > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Estudio de crédito:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Estudio de crédito" type="text" formControlName="creditStudy" [(ngModel)]="creditStudy"
+            readonly="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="totalAntioquiaGuarantee > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Garantia de Antioquia:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Garantia de Antioquia" type="text" formControlName="totalAntioquiaGuarantee"
+            [(ngModel)]="totalAntioquiaGuarantee" readonly="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="afiliationEducative > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Afiliación:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Afiliación" type="text" formControlName="afiliationEducative" [(ngModel)]="afiliationEducative"
+            readonly="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="totalcommunityGuarantee > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Garantía comunitaria:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Garantía comunitaria" type="text" formControlName="totalcommunityGuarantee"
+            [(ngModel)]="totalcommunityGuarantee">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12" *ngIf="totalSafeXThousand > 0">
+        <mat-form-field appearance="outline">
+          <mat-label>Seguros:</mat-label>
+          <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+            placeholder="Seguros" type="text" formControlName="totalSafeXThousand" [(ngModel)]="totalSafeXThousand"
+            readonly="true">
+        </mat-form-field>
+      </div>
+
+      <!-- ATRIBUTOS DINAMICOS PARA LINEA DE CRÉDITO EDUCATIVO -->
+
+      <ng-container *ngIf="productTypeId >= 7 && productTypeId <= 15">
+
+        <ng-container *ngIf="productTypeId != 8 && productTypeId != 15">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline">
+              <mat-label>Mes de inicio</mat-label>
+              <mat-select formControlName="initialMonth" (selectionChange)="monthChange($event)" required>
+                <ng-container *ngFor="let month of months, index as i">
+                  <mat-option *ngIf="i >= this.currentMonth - 1" [value]=month>
+                    {{month}}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngFor="let validation of educativeValidations.initialMonth">
+                <mat-error class="error-message"
+                  *ngIf="form.get('initialMonth').hasError(validation.type) && (form.get('initialMonth').dirty || form.get('initialMonth').touched)">
+                  {{validation.message}}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-12">
+            <ng-container *ngIf="form.get('paymentDate').errors; else elseTemplate">
+              <mat-label style="display: block;"
+                [ngClass]="{'text-danger': form.get('paymentDate').errors.required && (form.get('paymentDate').dirty || form.get('paymentDate').touched)}">
+                Fecha de pago (Día)</mat-label>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <mat-label style="display: block;">Fecha de pago (Día)</mat-label>
+            </ng-template>
+            <mat-radio-group formControlName="paymentDate" aria-labelledby="example-radio-group-label">
+              <mat-radio-button style="margin-right: 15px;" *ngFor="let radio of radioGroup"
+                class="example-radio-button" [disabled]="radio.disabled" [value]="radio.value">
+                {{ radio.value }}
+              </mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngFor="let validation of educativeValidations.paymentDate">
+              <mat-error class="error-message"
+                *ngIf="form.get('paymentDate').hasError(validation.type) && (form.get('paymentDate').dirty || form.get('paymentDate').touched)">
+                <strong>{{validation.message}}</strong>
+              </mat-error>
+            </mat-error>
+          </div>
+        </ng-container>
+
+        <div class="col-md-12" *ngIf="contributionsFrom > 0 && !existCygnus">
+          <mat-form-field appearance="outline">
+            <mat-label>Aportes:</mat-label>
+            <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+              formControlName="contributions" placeholder="Aportes" type="text" [value]="contributionsFrom | currency"
+              onkeydown="javascript: return event.keyCode == 107 || event.keyCode == 187 || event.keyCode == 109 || event.keyCode == 189 || event.keyCode == 110
+          || event.keyCode == 190 || event.keyCode ==69 || event.keyCode == 186 || event.keyCode == 188  ? false : true">
+            <mat-error *ngFor="let validation of educativeValidations.contributions">
+              <mat-error class="error-message"
+                *ngIf="form.get('contributions').hasError(validation.type) && (form.get('contributions').dirty || form.get('contributions').touched)">
+                {{validation.message}}
+              </mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12" *ngIf="this.productTypeId == 8 || this.productTypeId == 15">
+          <mat-form-field appearance="outline">
+            <mat-label>Periodo de renovación:</mat-label>
+            <mat-select formControlName="RenovationPeriod">
+              <mat-option *ngFor="let renovationPeriod of renovationPeriods" [value]="renovationPeriod">
+                {{renovationPeriod}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Programa:</mat-label>
+            <input matInput placeholder="Programa" type="text" minlength="3" formControlName="program">
+            <mat-error *ngFor="let validation of educativeValidations.program">
+              <mat-error class="error-message"
+                *ngIf="form.get('program').hasError(validation.type) && (form.get('program').dirty || form.get('program').touched)">
+                {{validation.message}}
+              </mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12" *ngIf="productTypeId != 8 && productTypeId != 15">
+          <mat-form-field appearance="outline">
+            <mat-label>Duración programa:</mat-label>
+            <mat-select formControlName="programDuration">
+              <mat-option value="4">
+                4 meses
+              </mat-option>
+              <mat-option value="6">
+                6 meses
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12" *ngIf="this.productTypeId != 9 && this.productTypeId != 14">
+          <mat-form-field appearance="outline">
+            <mat-label>Semestre:</mat-label>
+            <mat-select formControlName="semester">
+              <mat-option *ngFor="let semester of semesters" [value]="semester">
+                {{semester}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <ion-card>
+          <ion-card-content style="background-color: ivory">
+            *Nota: escanea el código de barras que se
+            encuentra en tu desprendible de pago para completar tus datos
+          </ion-card-content>
+          <button type="button" style="background-color: darkgrey;" class="btn btn-secondary btn-lg btn-block"
+            (click)="scanBarCode()">Escanear</button>
+        </ion-card>
+
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Número de recibo:</mat-label>
+            <input matInput placeholder="Número de recibo" type="text" formControlName="receiptNumber" appOnlynumber
+              required>
+            <mat-error *ngFor="let validation of educativeValidations.receiptNumber">
+              <mat-error class="error-message"
+                *ngIf="form.get('receiptNumber').hasError(validation.type) && (form.get('receiptNumber').dirty || form.get('receiptNumber').touched)">
+                {{validation.message}}
+              </mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Fecha de Pago Recibo Matricula</mat-label>
+          <input matInput readonly [matDatepicker]="picker" formControlName="monthlyPayment">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Código de estudiante (Referencia 1)*:</mat-label>
+            <input matInput placeholder="Código de estudiante" type="text" formControlName="firstStudentCode"
+              appOnlynumber>
+            <mat-error *ngFor="let validation of educativeValidations.firstStudentCode">
+              <mat-error class="error-message"
+                *ngIf="form.get('firstStudentCode').hasError(validation.type) && (form.get('firstStudentCode').dirty || form.get('firstStudentCode').touched)">
+                {{validation.message}}
+              </mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Periodo Académico*:</mat-label>
+            <input matInput placeholder="Código periodo estudiante" type="text" formControlName="secondStudentCode"
+              appOnlynumber>
+            <mat-error *ngFor="let validation of educativeValidations.secondStudentCode">
+              <mat-error class="error-message"
+                *ngIf="form.get('secondStudentCode').hasError(validation.type) && (form.get('secondStudentCode').dirty || form.get('secondStudentCode').touched)">
+                {{validation.message}}
+              </mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</form>

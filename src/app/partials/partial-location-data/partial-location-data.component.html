@@ -1,0 +1,171 @@
+<br>
+<form [formGroup]="form">
+    <ng-container formGroupName="locationData">
+        <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+                <mat-label>Sisbén*:</mat-label>
+                <mat-select formControlName="sisben">
+                    <mat-option [value]="2">No</mat-option>
+                    <mat-option [value]="1">Sí</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formPersonalInformation.get('sisben').invalid">{{
+            getError("sisben")}}
+                </mat-error>
+            </mat-form-field>
+            <ng-container *ngIf="formPersonalInformation.get('sisben').value == 1">
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Nivel de sisbén*:</mat-label>
+                    <input matInput placeholder="Nivel de sisbén" formControlName="sisbenlevel" type="text"
+                        id="sisbenlevel" name="sisbenlevel" />
+                    <mat-error *ngIf="formPersonalInformation.get('sisbenlevel').invalid">
+                        {{getError("sisbenlevel")}}
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+            <mat-form-field appearance="outline" class="col-md-12">
+                <mat-label>Cabeza de familia*:</mat-label>
+                <mat-select formControlName="householder">
+                    <mat-option [value]="2">No</mat-option>
+                    <mat-option [value]="1">Sí</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formPersonalInformation.get('householder').invalid">
+                    {{getError("householder")}}
+                </mat-error>
+            </mat-form-field>
+            <ng-container *ngIf="showOnChargePerson">
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Personas Adultas a Cargo*:</mat-label>
+                    <input matInput placeholder="Personas Adultas a Cargo" appOnlynumber
+                        formControlName="adultsPersonOnCharge" type="text" id="adultsPersonOnCharge"
+                        name="adultsPersonOnCharge" />
+                    <mat-error *ngIf="formPersonalInformation.get('adultsPersonOnCharge').invalid">{{
+          getError("adultsPersonOnCharge")}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Personas a cargo menores de 18 años*:</mat-label>
+                    <input matInput placeholder="Personas a cargo menores de 18 años" appOnlynumber
+                        formControlName="minorPersonsOnCharge" type="text" id="minorPersonsOnCharge"
+                        name="minorPersonsOnCharge" />
+                    <mat-error *ngIf="formPersonalInformation.get('minorPersonsOnCharge').invalid">{{
+          getError("minorPersonsOnCharge")}}
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+            <mat-form-field appearance="outline" class="col-md-12">
+                <mat-label>Dirección de residencia*:</mat-label>
+                <input matInput placeholder="Dirección de residencia" formControlName="address" type="text"
+                    id="personalAddress" name="personalAddress" />
+                <mat-error *ngIf="formPersonalInformation.get('address').invalid">{{
+            getError("address")
+          }}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-12">
+                <mat-label>Barrio*:</mat-label>
+                <input matInput placeholder="Barrio" formControlName="neighborhood" id="neighborhood"
+                    name="neighborhood" />
+                <mat-error *ngIf="formPersonalInformation.get('neighborhood').invalid">{{
+            getError("neighborhood")
+          }}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-12">
+                <mat-label>País de Residencia*:</mat-label>
+                <mat-select formControlName="countryId" class="col-12">
+                    <mat-option *ngFor="let country of countries$ | async" [value]="country.id">
+                        {{ country.name | titlecase }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formPersonalInformation.get('countryId').invalid">{{ getError("countryId") }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-12">
+                <mat-label>Departamento de Residencia*:</mat-label>
+                <mat-select formControlName="stateId" class="col-12">
+                    <mat-option *ngFor="let state of states$ | async" [value]="state.id">
+                        {{ state.name | titlecase }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formPersonalInformation.get('stateId').invalid">{{ getError("stateId") }}
+                </mat-error>
+            </mat-form-field>
+            <ng-container #city>
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Municipio de Residencia:*</mat-label>
+                        <mat-select formControlName="cityId" class="col-12">
+                            <mat-option *ngFor="let city of cities$ | async" [value]="city.id">
+                                {{ city.name | titlecase }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formPersonalInformation.get('cityId').invalid">{{ getError("cityId") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="showOtherPlace">
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Lugar de Residencia*:</mat-label>
+                    <input matInput placeholder="Lugar de Residencia" formControlName="otherPlace" type="text"
+                        id="livingOtherState" name="livingOtherState">
+                    <mat-error appearance="outline" *ngIf="formPersonalInformation.get('otherPlace').invalid">
+                        {{getError("otherPlace")}}
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+            <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                    <mat-label>Estrato*:</mat-label>
+                    <mat-select formControlName="stratum" class="col-12">
+                        <mat-option *ngFor="let stratum of stratumList" [value]="stratum">
+                            {{ stratum }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formPersonalInformation.get('stratum').invalid">{{ getError("stratum") }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo de vivienda*:</mat-label>
+                    <mat-select formControlName="housingType" class="col-12">
+                        <mat-option *ngFor="let housingType of housingTypeList" [value]="housingType">
+                            {{ housingType | titlecase }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formPersonalInformation.get('housingType').invalid">{{ getError("housingType") }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <mat-form-field appearance="outline" class="col-md-12">
+                <mat-label>Tiempo en la vivienda: (en meses):</mat-label>
+                <input matInput placeholder="Tiempo en la vivienda" appOnlynumber formControlName="livinPlaceTime"
+                    type="number" min="0" id="livinPlaceTime" name="livinPlaceTime" />
+                <mat-error *ngIf="formPersonalInformation.get('livinPlaceTime').invalid">
+                    {{getError("livinPlaceTime")}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-12">
+                <mat-label>Teléfono  fijo:</mat-label>
+                <input matInput placeholder="Teléfono fijo" formControlName="homePhone" type="text" min="0"
+                    appOnlynumber id="homePhone" name="homePhone" />
+                <mat-error *ngIf="formPersonalInformation.get('homePhone').invalid">{{
+            getError("homePhone")}}
+                </mat-error>
+            </mat-form-field>
+            <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo de vínculo con la organización minuto de Dios o IES aliadas:*</mat-label>
+                    <mat-select formControlName="relationshipType" class="col-12">
+                        <mat-option *ngFor="let relationshipType of relationshipTypes" [value]="relationshipType">
+                            {{ relationshipType | titlecase }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formPersonalInformation.get('relationshipType').invalid">
+                        {{ getError("relationshipType") }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <br />
+    </ng-container>
+</form>

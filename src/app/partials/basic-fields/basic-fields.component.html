@@ -1,0 +1,244 @@
+<form [formGroup]="form">
+  <ng-container formGroupName="basicData">
+    <div class="form-group row">
+
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Fecha de nacimiento*</mat-label>
+        <input matInput [matDatepicker]="dp3" readonly [min]="minDate" [max]="maxDate" formControlName="birthday">
+        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        <mat-error *ngIf="basicForm.get('birthday').invalid">{{ getError("birthday") }}
+        </mat-error>
+      </mat-form-field>
+
+
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Selecciona tipo documento:</mat-label>
+          <mat-select formControlName="document_type" [disabled]="document_type? true: false">
+            <mat-option *ngFor="let t of this.documentTypes" [value]="t.id">
+              {{ t.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Documento*</mat-label>
+          <input matInput placeholder="Documento" type="text" formControlName="document"
+            [readonly]="document? true: false">
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Fecha de expedición*</mat-label>
+        <input matInput [matDatepicker]="dp2" readonly [min]="birthday" [max]="getToday()"
+          formControlName="expeditionDate">
+        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+        <mat-datepicker #dp2></mat-datepicker>
+        <mat-error *ngIf="basicForm.get('birthday').invalid">{{ getError("birthday") }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>País de expedición*:</mat-label>
+          <mat-select formControlName="expeditionPlaceCountryId">
+            <mat-option *ngFor="let country of (countries$ | async)" [value]="country">
+              {{ country.name | titlecase }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="basicForm.get('expeditionPlaceCountryId').invalid">
+            {{ getError("expeditionPlaceCountryId") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Departamento de expedición*:</mat-label>
+          <mat-select formControlName="expeditionPlaceDepartmentId" class="col-12">
+            <mat-option *ngFor="let department of expeditionDepartments$ | async" [value]="department">
+              {{ department.name | titlecase }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="basicForm.get('expeditionPlaceDepartmentId').invalid">
+            {{ getError("expeditionPlaceDepartmentId") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Ciudad de expedición*:</mat-label>
+          <mat-select formControlName="expeditionPlaceCityId">
+            <mat-option *ngFor="let city of expeditionCities$ | async" [value]="city.id">
+              {{ city.name | titlecase }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="basicForm.get('expeditionPlaceCityId').invalid">{{ getError("expeditionPlaceCityId") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Selecciona un país de nacionalidad:</mat-label>
+          <mat-select formControlName="nationality">
+            <mat-option *ngFor="let country of (countries$ | async)" [value]="country">
+              {{ country.name | titlecase }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="basicForm.get('nationality').invalid">{{ getError("nationality") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Departamento de nacimiento*:</mat-label>
+          <mat-select formControlName="natalDepartment" class="col-12">
+            <mat-option *ngFor="let department of natalDepartments$ | async" [value]="department">
+              {{ department.name | titlecase }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="basicForm.get('natalDepartment').invalid">{{ getError("natalDepartment") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <ng-container>
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Municipio de nacimiento*:</mat-label>
+            <mat-select formControlName="natalCityId">
+              <mat-option *ngFor="let city of natalCities$ | async" [value]="city.id">
+                {{ city.name | titlecase }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="basicForm.get('natalCityId').invalid">{{ getError("natalCityId") }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="showOtherPlaceNationality">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>¿Cual?*:</mat-label>
+            <input matInput placeholder="Lugar de nacionalidad" formControlName="otherPlaceNationality" type="text">
+            <mat-error *ngIf="basicForm.get('otherPlaceNationality').invalid">{{ getError("otherPlaceNationality") }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </div>
+    <hr />
+    <div class="form-group row">
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Primer nombre*</mat-label>
+          <input matInput placeholder="Primer nombre" type="text" formControlName="first_name" value="">
+          <mat-error *ngFor="let validation of validations.first_name">
+            <mat-error class="error-message"
+              *ngIf="form.get('basicData').get('first_name').hasError(validation.type) && (form.get('basicData').get('first_name').dirty || form.get('basicData').get('first_name').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Segundo nombre</mat-label>
+          <input matInput placeholder="Segundo nombre" type="text" formControlName="second_name" value="">
+          <mat-error *ngFor="let validation of validations.second_name">
+            <mat-error class="error-message"
+              *ngIf="form.get('basicData').get('second_name').hasError(validation.type) && (form.get('basicData').get('second_name').dirty || form.get('basicData').get('second_name').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Primer apellido*</mat-label>
+          <input matInput placeholder="Primer apellido" type="text" formControlName="first_lastname" value="">
+          <mat-error *ngFor="let validation of validations.first_lastname">
+            <mat-error class="error-message"
+              *ngIf="form.get('basicData').get('first_lastname').hasError(validation.type) && (form.get('basicData').get('first_lastname').dirty || form.get('basicData').get('first_lastname').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Segundo apellido</mat-label>
+          <input matInput placeholder="Segundo apellido" type="text" formControlName="second_lastname" value="">
+          <mat-error *ngFor="let validation of validations.second_lastname">
+            <mat-error class="error-message"
+              *ngIf="form.get('basicData').get('second_lastname').hasError(validation.type) && (form.get('basicData').get('second_lastname').dirty || form.get('basicData').get('second_lastname').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Celular*</mat-label>
+          <input matInput placeholder="Celular" type="cellphone" formControlName="cellphone">
+          <mat-error *ngFor="let validation of validations.cellphone">
+            <mat-error class="error-message"
+              *ngIf="form.get('basicData').get('cellphone').hasError(validation.type) && (form.get('basicData').get('cellphone').dirty || form.get('basicData').get('cellphone').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+          <mat-error *ngIf="basicForm.get('cellphone').invalid">
+            {{ getError("cellphone") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Correo Electrónico*</mat-label>
+          <input matInput placeholder="Correo Electrónico" type="text" formControlName="email" value="">
+          <mat-error *ngFor="let validation of validations.email">
+            <mat-error class="error-message"
+              *ngIf="form.get('basicData').get('email').hasError(validation.type) && (form.get('basicData').get('email').dirty || form.get('basicData').get('email').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+          <mat-error *ngIf="basicForm.get('email').invalid">
+            {{ getError("email") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Universidad*:</mat-label>
+          <mat-select formControlName="university">
+            <mat-option *ngFor="let university of universities$ | async" [value]="university.id">
+              {{ university.university_name | titlecase }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="basicForm.get('university').invalid">{{ getError("university") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Sede*:</mat-label>
+          <mat-select formControlName="campus">
+            <mat-option *ngFor="let campus of campuses$ | async" [value]="campus.id">
+              {{ campus.cygnus_dependency | titlecase }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="basicForm.get('campus').invalid">{{ getError("campus") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-container>
+</form>

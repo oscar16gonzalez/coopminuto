@@ -1,0 +1,119 @@
+ion-item {
+  --border-color: #ffffff;
+  width: 100%;
+}
+
+.item {
+  --border-color: white;
+  width: 100%;
+}
+
+.itemList {
+  --border-color: black;
+}
+
+#otp {
+  font-size: 10px;
+}
+
+.labelQuestion {
+  font-size: 14px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-family: inherit;
+}
+
+.btn-evidente {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border: inherit;
+}
+
+.labelResponse {
+  font-size: 12px;
+  width: 80%;
+  font-family: inherit;
+}
+
+.ion-text-justify {
+  width: 90%;
+  height: 40%;
+  border-color: #ae2523;
+  padding-top: 5%;
+}
+
+.error {
+  width: 100%;
+  font-size: 12px;
+  color: #ae2523;
+}
+
+.ionItem {
+  --border-color: white;
+  width: 100%;
+}
+
+.formulario {
+  background-color: #233e50;
+  height: 40px;
+  // padding-top: 5%;
+  font-size: 11px;
+  width: 50%;
+  color: white;
+}
+
+.inputForm {
+  color: #ae2523;
+  font-size: 11px;
+  border: 1px solid #233e50;
+}
+
+.custom-icon {
+  font-size: 25px;
+  color: white;
+}
+
+ion-row {
+  padding-left: 5%;
+  padding-top: 2%;
+}
+
+.listaRespuesta {
+  --border-color: #ae2523;
+  height: 80%;
+}
+
+.form-group {
+  text-transform: none !important;
+}
+
+.Question {
+  height: 80%;
+}
+
+.questionsList {
+  padding-top: 15%;
+  height: 90%;
+}
+
+.listQuestion {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  // padding-top: 5%;
+  --border-color: #ae2523;
+}
+
+.ion-padding,
+[padding] {
+  padding-left: unset;
+  padding-right: unset;
+  padding-top: 12%;
+  -webkit-padding-start: var(--ion-padding, 16px);
+  padding-inline-start: var(--ion-padding, 16px);
+  -webkit-padding-end: var(--ion-padding, 16px);
+  padding-inline-end: var(--ion-padding, 16px);
+}

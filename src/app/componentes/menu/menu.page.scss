@@ -1,0 +1,65 @@
+.contenido {
+    --background: none;
+    // background-image: url("/assets/epm/fondo.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.logo {
+    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.iconoFooter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding-top: 40px;
+}
+
+.icono {
+    // width: 200px;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    // margin-left: 2%;
+    position: relative;
+    top: 20px;
+    z-index: unset;
+    font-size: 65px;
+    color: #00a8b5;
+}
+
+ion-card {
+    overflow: unset;
+    border: 0.5px solid #00a8b5;
+    height: 50%;
+    margin-left: auto;
+    margin-top: 5px;
+    left: 5%;
+}
+
+.titlecard {
+    font-size: 14px;
+    color: #00a8b5;
+    padding-top: 10px;
+}
+
+ion-card-header {
+    position: relative;
+    top: 20px;
+    text-align: center;
+}
+
+ion-card-title {
+    color: #ffffff
+}
+
+alert-input-group sc-ion-alert-md {
+    background-color: #AE2523;
+}

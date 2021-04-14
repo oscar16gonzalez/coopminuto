@@ -1,0 +1,17 @@
+<form class="mb-xl-12" [formGroup]="form">
+  <ion-card *ngIf="dinamicText">
+    <ion-card-content>
+      <p class="titleTextDynamic">{{textDynamicAffiliation}}</p>
+      <mat-radio-group formControlName="radio" aria-labelledby="example-radio-group-label">
+        <mat-radio-button class="example-margin" value="1">Si</mat-radio-button>
+        <mat-radio-button class="example-margin" value="0">No</mat-radio-button>
+      </mat-radio-group>
+      <mat-error *ngFor="let validation of validations.radio">
+        <mat-error class="error-message"
+          *ngIf="form.get('radio').hasError(validation.type) && (form.get('radio').dirty || form.get('radio').touched)">
+          <strong style="color: #f44336;">{{validation.message}}</strong>
+        </mat-error>
+      </mat-error>
+    </ion-card-content>
+  </ion-card>
+</form>

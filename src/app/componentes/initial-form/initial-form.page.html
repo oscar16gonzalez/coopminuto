@@ -1,0 +1,433 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-title>
+            Paso 1
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-button>
+                <!-- <ion-icon slot="start" name="menu"></ion-icon> -->
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end" style="width: 30%;">
+            <ion-button (click)="backMenu()">
+                <ion-icon slot="end" name="arrow-back"></ion-icon>
+            </ion-button>
+            <ion-img src="assets/icon/logo.png" style="width: 20%; height: 20%;"></ion-img>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-slides *ngIf="applicant" pager="true" style="width: 95%; height: 95%;">
+        <ion-slide>
+            <ion-content style="height: 100%;">
+                <div class="container content form-group" style="height: 90%;">
+                    <hr />
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <div *ngIf="!preForm" style="padding-top: 25px;">
+                            <ion-card style="height: 85%">
+                                <ion-card-header>
+                                    <ion-card-title style="color: #00a8b5; text-align: center; font-size: 24px">
+                                        ¡Bienvenido!
+                                    </ion-card-title>
+                                    <ion-card-subtitle style="text-align: center; font-size: 14px">Para hacer más fácil
+                                        tu
+                                        experiencia, podemos empezar por definir qué tipo de crédito deseas e ingresar
+                                        tu
+                                        número de documento de identidad
+                                    </ion-card-subtitle>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <mat-form-field appearance="outline" class="col-12">
+                                        <mat-label>Selecciona la modalidad de crédito*</mat-label>
+                                        <mat-select formControlName="productTypeCategoryId" [(ngModel)]="category">
+                                            <mat-option *ngFor="let category of productCategories"
+                                                [attr.checked]="category.identifier" [value]="category">
+                                                {{category.category}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngFor="let validation of validations.productTypeCategoryId">
+                                            <mat-error class="error-message"
+                                                *ngIf="requestForm.get('productTypeCategoryId').invalid && requestForm.get('productTypeCategoryId').hasError(validation.type) && requestForm.get('productTypeCategoryId').touched">
+                                                {{validation.message}}
+                                            </mat-error>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="col-12">
+                                        <mat-label>Selecciona tipo documento:</mat-label>
+                                        <mat-select formControlName="document_type">
+                                            <mat-option *ngFor="let t of this.documentTypes" [value]="t.id">
+                                                {{ t.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngFor="let validation of validations.document_type">
+                                            <mat-error class="error-message"
+                                                *ngIf="requestForm.get('document_type').invalid && requestForm.get('document_type').hasError(validation.type) && requestForm.get('document_type').touched">
+                                                {{validation.message}}
+                                            </mat-error>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="col-12">
+                                        <mat-label>Documento de identidad*</mat-label>
+                                        <input matInput placeholder="Cédula" formControlName="document" type="text"
+                                            (change)="errorDocument()">
+                                        <mat-error *ngFor="let validation of validations.document">
+                                            <mat-error class="error-message"
+                                                *ngIf="requestForm.get('document').invalid && requestForm.get('document').hasError(validation.type) && requestForm.get('document').touched">
+                                                {{validation.message}}
+                                            </mat-error>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <div *ngIf="requestForm.controls.document.hasError('required') && requestForm.controls.document.touched"
+                                        class="invalid-feedback">
+                                        El convenio es requerido
+                                    </div>
+                                    <br>
+                                    <button id="btnConsutlCygnus" class="btn btn-primary btn-evidente"
+                                        [style.backgroundColor]="parametrics.button_color" (click)="consultCygnus()"
+                                        style="width: 100%; border-color: transparent; padding-top: 10px;">
+                                        Aceptar
+                                    </button>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+                        <div *ngIf="form">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label [style.color]="parametrics.font_color" class="col-form-label"
+                                        for="productTypeId">Modalidad de
+                                        crédito:</label>
+                                    <select id="productTypeId" formControlName="productTypeId" class="custom-select">
+                                        <option value="" disabled selected hidden>Selecciona una modalidad de crédito
+                                        </option>
+                                        <option *ngFor="let t of productTypeList$ | async" [value]="t.id"
+                                            [attr.valor]="t.valor | currency" selected>
+                                            {{t.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <ion-item-divider *ngIf="!text">
+                                <ion-label text-center class="text-product"
+                                    style="padding-top: 10px; color: rgb(87, 87, 86); font-size: 1.1em;">
+                                    {{titleNameTable}}
+                                </ion-label>
+                            </ion-item-divider>
+                            <hr />
+                            <div *ngFor="let product of listProducts; let i = index;">
+                                <div>
+                                    <label *ngIf="text" [style.color]="parametrics.font_color" class="col-form-label"
+                                        for="productSelected">Línea de crédito:</label>
+                                    <div *ngIf="rowUpdate == i; else elseNameProduct">
+                                        <select class="form-control" formControlName="productSelected"
+                                            (change)="onChangeProductChild($event, i)" [(ngModel)]="product.id">
+                                            <option *ngFor="let productChild of listAllProducts"
+                                                [value]="productChild.id" [attr.amount]="productChild.amount"
+                                                [attr.amountInitial]="productChild.amountInitial"
+                                                [attr.description]="productChild.description"
+                                                [attr.type]="productChild.type_name">
+                                                {{productChild.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label *ngIf="text" [style.color]="parametrics.font_color" class="col-form-label"
+                                    for="productValue">{{ titleNameAmount }}:</label>
+                                <div *ngIf="rowUpdate == i; else elseValueProduct">
+                                    <input onkeydown="javascript: return event.keyCode == 69 ? false : true"
+                                        type="number" (input)="onChangeValue($event.target.value, i)" min="100"
+                                        max="9999999999" class="form-control" formControlName="productValue"
+                                        [(ngModel)]="product.amountInitial" id="editValue"
+                                        [value]="product.amountInitial"
+                                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                        maxlength="10" />
+                                </div>
+                                <ng-template style="width: 100%;" #elseValueProduct>
+                                    <div class="row">
+                                        <div class="text-table col-6">Línea de crédito :</div>
+                                        <div class="text-table col-6">{{this.listAllProducts[1].description}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="text-table col-6">{{titleNameAmount}} :</div>
+                                        <div class="text-table col-6">{{product.amountInitial | currency:'AMD':'$'}}
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <br>
+                                <div *ngIf="rowUpdate == i; else elseEditLine">
+                                    <button (click)="updateProductLine(i);" type="button"
+                                        class="btn btn-primary btn-evidente"
+                                        [style.backgroundColor]="parametrics.button_color"
+                                        style="border-color: transparent;">Aceptar </button>
+                                </div>
+                                <div #elseEditLine *ngIf="btnEdit">
+                                    <button *ngIf="codeTermsSent" (click)="setUpadteProductLine(i);" type="button"
+                                        class="btn btn-primary btn-evidente"
+                                        [style.backgroundColor]="parametrics.button_color"
+                                        style="border-color: transparent;">Editar </button>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        <div *ngIf="form">
+                            <app-dynamic-attributes [form]="this.requestForm" [agreements]="this.agreements$"
+                                [showAgreement]="this.showAgreement" [parametrics]="this.parametrics"
+                                [termList]="this.termList"
+                                [totalMonthlyFixedFee]="this.requestForm.controls.total_monthly_fixed_fee"
+                                [taxes]="taxes" [montTotal]="montTotal" [productSelectValue]="productChildValue"
+                                [existCygnus]="existCygnus" [category]='category'>
+                            </app-dynamic-attributes>
+                            <div class="form-group row">
+                                <div class="col-md-4" *ngIf="showAgreement">
+                                    <label [style.color]="parametrics.font_color" class="col-form-label"
+                                        for="term">Convenio
+                                        <strong>*</strong>:</label>
+                                    <select formControlName="agreementId" id="agreementId"
+                                        [ngClass]="requestForm.controls.agreementId.invalid && requestForm.controls.agreementId.touched ? 'custom-select is-invalid' : 'custom-select'">
+
+                                        <option value="" disabled selected hidden>Selecciona un convenio</option>
+                                        <option *ngFor="let agreement of agreements$ | async" [value]="agreement.id">
+                                            {{agreement.name | titlecase}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="requestForm.controls.agreementId.hasError('required') && requestForm.controls.agreementId.touched"
+                                        class="invalid-feedback">
+                                        El convenio es requerido
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="form">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">DATOS
+                            BÁSICOS ASOCIADO
+                            y/o DEUDOR
+                        </h3>
+                        <app-basic-fields [form]="this.applicantForm" [permissions]="this.permissions"
+                            [typeApplicant]="this.typeApplicant" [document]="document"
+                            [document_type]="this.requestForm.get('document_type').value">
+                        </app-basic-fields>
+
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="form">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm" z>
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            INFORMACIÓN PERSONAL
+                        </h3>
+                        <app-partial-location-data [form]="this.applicantForm"></app-partial-location-data>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="form">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            INFORMACIÓN LABORAL
+                        </h3>
+                        <app-partial-labor-details [form]="this.applicantForm"></app-partial-labor-details>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="form">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            INFORMACIÓN FINANCIERA
+                        </h3>
+                        <app-partial-financial-information [form]="this.applicantForm">
+                        </app-partial-financial-information>
+                        <div *ngIf="form_renovation">
+                            <div *ngIf="termsAndCondition" class="form-group row">
+                                <div class="col-md-12">
+                                    <div class="center-block">
+                                        <u data-toggle="modal" (click)="terminos_condiciones()"
+                                            data-target="#modalTerms">Lee
+                                            los
+                                            términos y
+                                            condiciones</u>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <mat-form-field appearance="outline" class="col-12 offset">
+                                    <mat-label>Deudor Solidario*</mat-label>
+                                    <mat-select [(ngModel)]="needCodeudor" (selectionChange)="changeCodeudor($event, i)"
+                                        [ngModelOptions]="{standalone: true}" [disabled]="this.disableCodeudor">
+                                        <mat-option [value]="true">
+                                            Si
+                                        </mat-option>
+                                        <mat-option [value]="false">
+                                            No
+                                        </mat-option>
+                                    </mat-select>
+
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="form">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            REFERENCIA PERSONAL
+                        </h3>
+                        <app-partial-personal-reference [form]="this.applicantForm"></app-partial-personal-reference>
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            REFERENCIA FAMILIAR
+                        </h3>
+                        <app-parcial-family-reference [form]="this.applicantForm"></app-parcial-family-reference>
+                        <div *ngIf="termsAndCondition" class="form-group row">
+                            <div class="col-md-12">
+                                <div class="center-block">
+                                    <u data-toggle="modal" (click)="terminos_condiciones()"
+                                        data-target="#modalTerms">Lee
+                                        los
+                                        términos y
+                                        condiciones</u>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dinamico -->
+                        <app-partial-text-dynamic-affiliation-renovation [montTotal]='montTotal' [document]='document'
+                            [productSelectValue]='productChildValue' [existCygnus]='existCygnus'
+                            [affiliation]='affiliation' [category]='category'
+                            [contributions]='this.requestForm.get("contributions") ? this.requestForm.get("contributions").value : 0'>
+                        </app-partial-text-dynamic-affiliation-renovation>
+                        <app-partial-text-outstanding-balance [form]="this.applicantForm" [document]='document' [filingNumber]='this.filingNumber'
+                            [balanceToCollect]='this.balanceToCollect'>
+                        </app-partial-text-outstanding-balance>
+                        <div class="row">
+                            <mat-form-field appearance="outline" class="col-12 offset">
+                                <mat-label>Deudor Solidario*</mat-label>
+                                <mat-select [(ngModel)]="needCodeudor" (selectionChange)="changeCodeudor($event, i)"
+                                    [ngModelOptions]="{standalone: true}" [disabled]="this.disableCodeudor">
+                                    <mat-option [value]="true">
+                                        Si
+                                    </mat-option>
+                                    <mat-option [value]="false">
+                                        No
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="needCodeudor">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">DATOS
+                            BÁSICOS ASOCIADO
+                            y/o DEUDOR SOLIDARIO
+                        </h3>
+                        <app-basic-fields [form]="this.codeudorForm" [typeApplicant]="2"></app-basic-fields>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="needCodeudor">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            INFORMACIÓN PERSONAL DEUDOR
+                            SOLIDARIO
+                        </h3>
+                        <app-partial-location-data [form]="this.codeudorForm"></app-partial-location-data>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="needCodeudor">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            INFORMACIÓN LABORAL DEUDOR
+                            SOLIDARIO
+                        </h3>
+                        <app-partial-labor-details [form]="this.codeudorForm" [typeApplicant]="2">
+                        </app-partial-labor-details>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="needCodeudor">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            INFORMACIÓN FINANCIERA DEUDOR
+                            SOLIDARIO
+                        </h3>
+                        <app-partial-financial-information [form]="this.codeudorForm">
+                        </app-partial-financial-information>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide *ngIf="needCodeudor">
+            <ion-content style="height: 100%;">
+                <div class="container content form-group">
+                    <form class="mb-xl-12" [formGroup]="requestForm">
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            REFERENCIA PERSONAL DEUDOR
+                            SOLIDARIO
+                        </h3>
+                        <app-partial-personal-reference [form]="this.codeudorForm"></app-partial-personal-reference>
+                        <h3 style="padding-top: 20px; color: rgb(87, 87, 86); font-size: 1.3em; font-weight: 800;">
+                            REFERENCIA FAMILIAR DEUDOR
+                            SOLIDARIO
+                        </h3>
+                        <app-parcial-family-reference [form]="this.codeudorForm"></app-parcial-family-reference>
+                        <app-applicant-form [applicantForm]="this.codeudorForm" [dynamicFormData]="this.dynamicsFields"
+                            [typeApplicant]="this.needCodeudor ? 3 : 1">
+                        </app-applicant-form>
+                        <div *ngIf="!termsAndCondition" class="form-group row">
+                            <div class="col-md-12">
+                                <div class="center-block">
+                                    <u data-toggle="modal" (click)="terminos_condiciones()"
+                                        data-target="#modalTerms">Lee
+                                        los
+                                        términos y
+                                        condiciones</u>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-slide>
+    </ion-slides>
+</ion-content>
+<div *ngIf="form" padding style="padding-top: 2%; height: 10%;">
+    <button type="submit" (click)="sendCodeValidateOTP()" *ngIf="codeTermsSent" class="btn btn-primary btn-evidente"
+        [style.backgroundColor]="parametrics.button_color" style="width: 100%; border-color: transparent;">ENVIAR
+        CÓDIGO</button>
+    <button *ngIf="validatedOtpCode" type="submit" (click)="onSubmit()" class="btn btn-primary btn-evidente"
+        [style.backgroundColor]="parametrics.button_color" style="width: 100%; border-color: transparent;">CREAR
+        SOLICITUD </button>
+</div>

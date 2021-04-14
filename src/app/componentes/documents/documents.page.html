@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>
+      Libranza
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button>
+        <!-- <ion-icon slot="start" name="menu"></ion-icon> -->
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" style="width: 30%;">
+      <ion-button (click)="backMenu()">
+        <ion-icon slot="end" name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-img src="assets/icon/logo.png" style="width: 20%; height: 20%;"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title style="text-align: center">Libranza Digital</ion-card-title>
+      <hr>
+      <div [innerHTML]="data"></div>
+      <div *ngIf="btnDocuments">
+        <button mat-button class="btn btn-primary btn-pagare" [style.backgroundColor]="parametrics.button_color"
+          (click)="generateCode()">Generar Código</button>
+      </div>
+    </ion-card-header>
+  </ion-card>
+  <ion-card *ngIf="documents">
+    <ion-card-content>
+      <div class="form-group row">
+        <div class="col-md-12">
+          <ion-card-title style="text-align: center">Codigo Libranza Digital</ion-card-title>
+          <hr>
+          <ion-card-content>
+            <label>Deudor : Ingresa el código enviado a tu celular y correo para firmar libranza</label>
+            <input type="text" class="form-control" placeholder="######" [(ngModel)]="codePagare"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              maxlength="6">
+            <div *ngIf="CodeudorPG">
+              <hr>
+              <label>Codeudor : Ingresa el código enviado a tu celular y correo para firmar el libranza</label>
+              <input type="text" class="form-control" placeholder="######" [(ngModel)]="codePagareCodeudor"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                maxlength="6">
+            </div>
+          </ion-card-content>
+        </div>
+      </div>
+      <div>
+        <button mat-button class="btn btn-primary btn-pagare" [style.backgroundColor]="parametrics.button_color"
+          (click)="validateCodes()">Validar Código</button>
+        <button mat-button class="btn btn-primary btn-pagare" (click)="generateCode()">Reenviar
+          Códigos</button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button *ngFor="let c of buttons" (click)="back(c.redirectTo)" [style.backgroundColor]="c.color">
+          <ion-icon class="custom-icon" [name]="c.icon"></ion-icon>
+          <ion-label style="color:white">{{c.name}}</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

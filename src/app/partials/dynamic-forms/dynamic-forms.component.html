@@ -1,0 +1,62 @@
+<br>
+<form [formGroup]="dynamicForm">
+    <div>
+        <div *ngIf="dynamicFormData">
+            <ng-container *ngFor="let item of this.objectArray">
+                <fieldset>
+                    <legend style="font-size: 1.3em; font-weight: 800; color: rgb(87, 87, 86);">{{ item[1].nombre_grupo }}</legend>
+                    <div class="form-group row">
+                        <ng-container formGroupName="{{ item[0] }}">
+                            <ng-container *ngFor="let subItem of item[1].elementos">
+                                <div class="{{subItem.class}}">
+                                    <label class="col-form-label" [style.color]="parametrics.font_color">
+                                        {{ subItem.nombre }} {{subItem.required === '1' ? '*' : ''}}
+                                    </label>
+                                    <ng-container *ngIf="subItem.tipo === 'select'">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>{{ subItem.nombre }}:</mat-label>
+                                            <mat-select formControlName="{{ subItem.id }}">
+                                                <mat-option *ngFor="let options of subItem.datos" [value]="options">
+                                                    {{ options | titlecase }}</mat-option>
+                                            </mat-select>
+                                            <mat-error *ngFor="let validation of validations['id' + subItem.id]">
+                                                <mat-error class="error-message"
+                                                    *ngIf="dynamicForm.get(item[0]).get(subItem.id).hasError(validation.type) && (dynamicForm.get(item[0]).get(subItem.id).dirty || dynamicForm.get(item[0]).get(subItem.id).touched)">
+                                                    {{validation.message}}
+                                                </mat-error>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </ng-container>
+                                    <ng-container *ngIf="subItem.tipo === 'textarea'">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>{{ subItem.nombre }}:</mat-label>
+                                            <textarea matInput placeholder="Descripción breve del predio"  formControlName="{{ subItem.id }}" matTextareaAutosize matAutosizeMinRows="5"></textarea>
+                                            <mat-error *ngFor="let validation of validations['id' + subItem.id]">
+                                                <mat-error class="error-message"
+                                                    *ngIf="dynamicForm.get(item[0]).get(subItem.id).hasError(validation.type) && (dynamicForm.get(item[0]).get(subItem.id).dirty || dynamicForm.get(item[0]).get(subItem.id).touched)">
+                                                    {{validation.message}}
+                                                </mat-error>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </ng-container>
+                                    <ng-container *ngIf="subItem.tipo !== 'select' && subItem.tipo !== 'textarea'">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>{{ subItem.nombre }} :</mat-label>
+                                            <input matInput placeholder="{{ subItem.nombre }}" type="{{ subItem.tipo }}" formControlName="{{ subItem.id }}" value="">
+                                            <mat-error *ngFor="let validation of validations['id' + subItem.id]">
+                                                <mat-error class="error-message"
+                                                    *ngIf="dynamicForm.get(item[0]).get(subItem.id).hasError(validation.type) && (dynamicForm.get(item[0]).get(subItem.id).dirty || dynamicForm.get(item[0]).get(subItem.id).touched)">
+                                                    {{validation.message}}
+                                                </mat-error>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </ng-container>
+                                </div>
+                            </ng-container>                            
+                        </ng-container>
+                    </div>
+                </fieldset>
+            </ng-container>
+        </div>       
+    </div>
+</form>

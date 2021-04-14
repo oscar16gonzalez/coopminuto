@@ -1,0 +1,29 @@
+<ion-header no-border>
+    <ion-toolbar>
+        <img style="height: 250px; width: 100%;" src="assets/coopminuto/header.png" alt="">
+    </ion-toolbar>
+</ion-header>
+<ion-content class="contenido">
+    <div class="conten-login">
+        <ion-item color="transparent" class="itemLogin">
+            <ion-label slot="end">
+                <ion-icon class="icon ion-home custom-icon" name="person"></ion-icon>
+            </ion-label>
+            <ion-input class="inputLogin" placeholder="Correo de Usuario" type="text" [(ngModel)]="email" name="email" required>
+            </ion-input>
+        </ion-item>
+        <ion-item color="transparent" class="itemLogin">
+            <ion-label slot="end">
+                <ion-icon class="icon ion-home custom-icon" name="ios-lock"></ion-icon>
+            </ion-label>
+            <ion-input class="inputLogin" placeholder="Contraseña" (keyup.enter)="onSubmitLogin()" type="password" [(ngModel)]="password" name="password" required></ion-input>
+        </ion-item>
+        <div padding style="padding-top: 25%">
+            <button type="submit" (click)="onSubmitLogin()" class="btn btn-primary btn-login" style="width: 100%; border-color: transparent;">INGRESAR</button>
+        </div>
+        <!-- <img style="height: auto; width: 100%;" src="assets/coopminuto/footer.png" alt=""> -->
+    </div>
+</ion-content>
+<ion-footer style="height: 10%;" no-border>
+    <img style="height: 100%; width: 100%;" src="assets/coopminuto/footer.png" alt="">
+</ion-footer>

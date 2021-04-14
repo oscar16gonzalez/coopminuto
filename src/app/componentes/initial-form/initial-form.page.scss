@@ -1,0 +1,107 @@
+ion-item {
+    // --border-color: #AE2523;
+    width: 100%;
+}
+
+ion-card {
+    overflow: unset;
+    border: 0.7px solid #00a8b5;
+}
+
+mat-form-field{
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    height: 55px;
+}
+
+.divform {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table{
+    width: 100%;
+}
+
+.text-table{
+    font-size: 13px;
+    padding-top: 10px;
+}
+    
+.text-product{
+    font-family: none;
+    font-size: larger;  
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.divform1 {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    top: 15px;
+}
+
+.iconform {
+    font-size: 20pt;
+}
+
+.error {
+    width: 100%;
+    font-size: 12px;
+    color: #AE2523
+}
+
+.ionItem {
+    --border-color: white;
+    width: 100%;
+}
+
+hr {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 0;
+}
+
+input:invalid {
+    border: 1px solid red;
+}
+
+.icon {
+    width: 52px;
+}
+
+.icon1 {
+    width: 100px;
+    // position: absolute;
+}
+
+.input-group-text {
+    height: 38px;
+}
+
+.textMonto {
+    font-size: 10px;
+}
+
+.normalToast {
+    .toast-message {
+        border-radius: 0.65rem !important;
+        background: color(white)
+    }
+}
+
+mat-form-field.ng-invalid.ng-touched {
+    animation: example;
+    animation-duration: 0.3s;
+    margin-bottom: 20px;
+  }
+  @keyframes example {
+    from {margin-bottom: 0;}
+    to {margin-bottom: 2px;}
+  }
+  mat-error{
+    font-size: 10px;
+  }

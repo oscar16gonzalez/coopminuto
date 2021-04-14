@@ -1,0 +1,66 @@
+.initial-field {
+    margin-top: 10px;
+}
+
+.grand-input {
+    height: auto !important;
+}
+
+.color-white {
+    color: white;
+}
+
+.row {
+    margin: 0;
+}
+
+.col{
+    text-align: right;
+    width: 30%;
+}
+
+.col1{
+    text-align: right;
+    width: 10%;
+}
+
+.col-form-label {
+    cursor: pointer;
+}
+
+label {
+    font-weight: 800;
+}
+
+mat-form-field{
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    height: 55px;
+}
+
+// ::ng-deep.mat-form-field-outline .mat-form-field-flex .mat-form-field-appearance-outline{
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline{
+    background: white;
+    border-radius: 5px;
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: grey;
+}
+/**********************************ERROR STYLE*****************************************/
+
+mat-form-field.ng-invalid.ng-touched {
+    animation: example;
+    animation-duration: 0.3s;
+    margin-bottom: 30px;
+}
+
+@keyframes example {
+    from {margin-bottom: 0;}
+    to {margin-bottom: 5px;}
+}
+
+mat-error{
+    font-size: 15px;
+}

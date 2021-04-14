@@ -1,0 +1,285 @@
+<form [formGroup]="form">
+    <ng-container formGroupName="financialInformation">
+        <div class="row">
+            <ng-container *ngIf="!hiddenData">
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Salario/Honorarios/Pensiones*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="salary" min="0" id="salary" name="salary">
+                    <mat-error *ngIf="formFinancialDetails.get('salary').invalid">{{getError("salary")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Ingresos por arriendos:*:</mat-label>
+                    <input matInput currencyMask [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 }"
+                        formControlName="rentalIncome" id="rentalIncome" name="rentalIncome">
+                    <mat-error *ngIf="formFinancialDetails.get('rentalIncome').invalid">{{getError("rentalIncome")}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Otros ingresos (monto)*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false}"
+                        formControlName="othersIncomming" id="othersIncomming" name="othersIncomming">
+                    <mat-error *ngIf="formFinancialDetails.get('othersIncomming').invalid">
+                        {{getError("othersIncomming")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Descripción de Otros Ingresos (monto)*:</mat-label>
+                    <input matInput placeholder="Decripción Otros de Ingresos"
+                        formControlName="othersIncommingDescription" type="text" id="othersIncommingDescription"
+                        name="othersIncommingDescription">
+                    <mat-error *ngIf="formFinancialDetails.get('othersIncommingDescription').invalid">
+                        {{getError("othersIncommingDescription")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Total Ingresos <small>(Cálculo automático)</small>*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 , allowNegative: false}"
+                        formControlName="totalIncomming" readonly id="totalIncomming" name="totalIncomming">
+                    <mat-error *ngIf="formFinancialDetails.get('totalIncomming').invalid">{{getError("totalIncomming")}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Gastos Personales (monto)*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="personalExpenses" id="personalExpenses" name="personalExpenses">
+                    <mat-error *ngIf="formFinancialDetails.get('personalExpenses').invalid">
+                        {{getError("personalExpenses")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Obligaciones Crediticias*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="creditExpenses" id="creditExpenses" name="creditExpenses">
+                    <mat-error *ngIf="formFinancialDetails.get('creditExpenses').invalid">
+                        {{getError("creditExpenses")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Otros egresos (monto)*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="othersExpenses" id="othersExpenses" name="othersExpenses">
+                    <mat-error *ngIf="formFinancialDetails.get('othersExpenses').invalid">
+                        {{getError("othersExpenses")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Descripción de Otros Egresos (monto)*:</mat-label>
+                    <input matInput placeholder="Decripción Otros Egresos" formControlName="othersExpensesDescription"
+                        type="text" id="othersExpensesDescription" name="othersExpensesDescription">
+                    <mat-error *ngIf="formFinancialDetails.get('othersExpensesDescription').invalid">
+                        {{getError("othersExpensesDescription")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Total Egresos <small>(Cálculo automático)</small>*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="totalExpenses" readonly [value]="totalExpenses | currency" id="totalExpenses"
+                        name="totalExpenses">
+                    <mat-error *ngIf="formFinancialDetails.get('totalExpenses').invalid">{{getError("totalExpenses")}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Activos - Valor estimado de todos sus bienes*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="assets" id="assets" name="assets">
+                    <mat-error *ngIf="formFinancialDetails.get('assets').invalid">
+                        {{getError("assets")}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Pasivos - Valor total que suman sus deudas*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 , allowNegative: false}"
+                        formControlName="liabilities" id="liabilities" name="liabilities">
+                    <mat-error *ngIf="formFinancialDetails.get('liabilities').invalid">
+                        {{getError("liabilities")}}</mat-error>
+                </mat-form-field>
+            </ng-container>
+            <ng-container *ngIf="hiddenData">
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Otros ingresos (monto)*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false}"
+                        formControlName="othersIncomming" id="othersIncomming" name="othersIncomming">
+                    <mat-error *ngIf="formFinancialDetails.get('othersIncomming').invalid">
+                        {{getError("othersIncomming")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Descripción de Otros Ingresos (monto)*:</mat-label>
+                    <input matInput placeholder="Decripción Otros de Ingresos"
+                        formControlName="othersIncommingDescription" type="text" id="othersIncommingDescription"
+                        name="othersIncommingDescription">
+                    <mat-error *ngIf="formFinancialDetails.get('othersIncommingDescription').invalid">
+                        {{getError("othersIncommingDescription")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Total Ingresos <small>(Cálculo automático)</small>*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 , allowNegative: false}"
+                        formControlName="totalIncomming" readonly id="totalIncomming" name="totalIncomming">
+                    <mat-error *ngIf="formFinancialDetails.get('totalIncomming').invalid">{{getError("totalIncomming")}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Gastos Personales (monto)*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="personalExpenses" id="personalExpenses" name="personalExpenses">
+                    <mat-error *ngIf="formFinancialDetails.get('personalExpenses').invalid">
+                        {{getError("personalExpenses")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Obligaciones Crediticias*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="creditExpenses" id="creditExpenses" name="creditExpenses">
+                    <mat-error *ngIf="formFinancialDetails.get('creditExpenses').invalid">
+                        {{getError("creditExpenses")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Otros egresos (monto)*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="othersExpenses" id="othersExpenses" name="othersExpenses">
+                    <mat-error *ngIf="formFinancialDetails.get('othersExpenses').invalid">
+                        {{getError("othersExpenses")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Descripción de Otros Egresos (monto)*:</mat-label>
+                    <input matInput placeholder="Decripción Otros Egresos" formControlName="othersExpensesDescription"
+                        type="text" id="othersExpensesDescription" name="othersExpensesDescription">
+                    <mat-error *ngIf="formFinancialDetails.get('othersExpensesDescription').invalid">
+                        {{getError("othersExpensesDescription")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Total Egresos <small>(Cálculo automático)</small>*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="totalExpenses" readonly [value]="totalExpenses | currency" id="totalExpenses"
+                        name="totalExpenses">
+                    <mat-error *ngIf="formFinancialDetails.get('totalExpenses').invalid">{{getError("totalExpenses")}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Activos - Valor estimado de todos sus bienes*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0, allowNegative: false }"
+                        formControlName="assets" id="assets" name="assets">
+                    <mat-error *ngIf="formFinancialDetails.get('assets').invalid">
+                        {{getError("assets")}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Pasivos - Valor total que suman sus deudas*:</mat-label>
+                    <input matInput currencyMask
+                        [options]="{ prefix: '$ ', thousands: '.', decimal: ',', precision:0 , allowNegative: false}"
+                        formControlName="liabilities" id="liabilities" name="liabilities">
+                    <mat-error *ngIf="formFinancialDetails.get('liabilities').invalid">
+                        {{getError("liabilities")}}</mat-error>
+                </mat-form-field>
+
+            </ng-container>
+
+            <label class="col-form-label">
+                ¿Realiza operaciones internacionales y/o recibe giros o remesas en moneda extranjera?*
+            </label>
+            <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Selecciona una opción</mat-label>
+                <mat-select formControlName="abroadOperation" id="abroadOperation" name="abroadOperation">
+                    <mat-option [value]="2">No</mat-option>
+                    <mat-option [value]="1">Sí</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formFinancialDetails.get('abroadOperation').invalid">
+                    {{getError("abroadOperation")}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-12">
+                <mat-label>¿Posee cuentas en moneda extranjera?*:</mat-label>
+                <mat-select formControlName="abroadAccountMoney" id="abroadAccountMoney" name="abroadAccountMoney">
+                    <mat-option [value]="2">No</mat-option>
+                    <mat-option [value]="1">Sí</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formFinancialDetails.get('abroadAccountMoney').invalid">
+                    {{getError("abroadAccountMoney")}}</mat-error>
+            </mat-form-field>
+            <label class="col-form-label">
+                ¿Maneja dineros públicos y/o es contratista de la nación, departamento, municipio o alguna
+                entidad pública?*
+            </label>
+            <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Selecciona una opción</mat-label>
+                <mat-select formControlName="publicEmployed" id="publicEmployed" name="publicEmployed">
+                    <mat-option [value]="2">No</mat-option>
+                    <mat-option [value]="1">Sí</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formFinancialDetails.get('publicEmployed').invalid">
+                    {{getError("publicEmployed")}}</mat-error>
+            </mat-form-field>
+            <label class="col-form-label">
+                ¿Se considera usted persona públicamente expuesta y/o políticamente?*
+            </label>
+            <mat-form-field appearance="outline" class="col-12">
+                <mat-label> Selecciona una opción</mat-label>
+                <mat-select formControlName="publicPerson" id="publicPerson" name="publicPerson">
+                    <mat-option [value]="2">No</mat-option>
+                    <mat-option [value]="1">Sí</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formFinancialDetails.get('publicPerson').invalid">
+                    {{getError("publicPerson")}}</mat-error>
+            </mat-form-field>
+            <label class="col-form-label">
+                ¿Considera usted que algun integrante de su familia(hasta segundo grado de consanguinidad o
+                afinidad, es una persona pública y/o políticamente expuesta?*
+            </label>
+            <mat-form-field appearance="outline" class="col-12">
+                <mat-label> Selecciona una opción</mat-label>
+                <mat-select formControlName="familyPublicPerson" id="familyPublicPerson" name="familyPublicPerson">
+                    <mat-option [value]="2">No</mat-option>
+                    <mat-option [value]="1">Sí</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formFinancialDetails.get('familyPublicPerson').invalid">
+                    {{getError("familyPublicPerson")}}</mat-error>
+            </mat-form-field>
+
+            <ng-container *ngIf="publicPersonField">
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Nombre*:</mat-label>
+                    <input matInput placeholder="Nombre del familiar" formControlName="familyPublicName" type="text"
+                        id="familyPublicName" name="familyPublicName">
+                    <mat-error *ngIf="formFinancialDetails.get('familyPublicName').invalid">
+                        {{getError("familyPublicName")}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Parentesco*:</mat-label>
+                    <input matInput placeholder="Parentesco" formControlName="familyRelationship" type="text"
+                        id="familyRelationship" name="familyRelationship">
+                    <mat-error *ngIf="formFinancialDetails.get('familyRelationship').invalid">
+                        {{getError("familyRelationship")}}</mat-error>
+                </mat-form-field>
+            </ng-container>
+            <br />
+            <ion-card>
+                <ion-card-header>
+                    <ion-card-title>Declaración fondo de orígenes:</ion-card-title>
+                    <ion-card-subtitle>En el cumplimiento de las normas legales
+                        para la solicitud de productos de la COOPERATIVA MINUTO DE DIOS, declaro que mis ingresos 
+                        son de origen lícito y fondos provenientes de</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <mat-form-field appearance="outline" class="col-12">
+                        <mat-label>Declaración fondo de orígenes:</mat-label>
+                        <input matInput formControlName="incomeSource" type="text">
+                        <mat-error *ngIf="formFinancialDetails.get('incomeSource').invalid">
+                            {{getError("incomeSource")}}</mat-error>
+                    </mat-form-field>
+                </ion-card-content>
+            </ion-card>
+        </div>
+    </ng-container>
+</form>

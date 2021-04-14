@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-title>
+            Documentos
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-button>
+                <!-- <ion-icon slot="start" name="menu"></ion-icon> -->
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end" style="width: 30%;">
+            <ion-button>
+                <ion-icon slot="end" name=""></ion-icon>
+            </ion-button>
+            <ion-img src="assets/icon/logo.png" style="width: 20%; height: 20%;"></ion-img>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="container">
+        <div class="col-md-12">
+            <div class="tab-content">
+                <h3 class="text" *ngIf="nodocuments">No tienes documentos por adjuntar, puedes continuar</h3>
+                <form #formRequeriments enctype="multipart/form-data" id="frmDocuments" [formGroup]="documentsForm">
+                </form>
+                <button *ngIf="!nodocuments" mat-button class="btn btn-primary btn-requirements"
+                    (click)="processForm(true)">
+                    Actualizar requisitos</button>
+                <div *ngIf="allowTofinish">
+                    <button mat-button class="btn btn-primary btn-requirements"
+                        *ngIf="showPromissoryNote && !promissoryNoteSigned"
+                        [style.backgroundColor]="parametrics.button_color" (click)="openPagare()"> Ver
+                        pagaré</button>
+                    <button mat-button *ngFor="let document of documentSigns"
+                        class="btn btn-primary btn-requirements" [style.backgroundColor]="parametrics.button_color"
+                        (click)="openDialog(document.id)"> Ver
+                        {{ document.name_document }}
+                    </button>
+                    <button mat-button class="btn btn-primary btn-requirements" *ngIf="allowTofinish"
+                        [style.backgroundColor]="parametrics.button_color" (click)="finishProcess()">
+                        Continuar</button>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-tabs>
+            <ion-tab-bar slot="bottom">
+                <ion-tab-button *ngFor="let c of buttons" (click)="back(c.redirectTo)"
+                    [style.backgroundColor]="c.color">
+                    <ion-icon class="custom-icon" [name]="c.icon"></ion-icon>
+                    <ion-label style="color:white">{{c.name}}</ion-label>
+                </ion-tab-button>
+            </ion-tab-bar>
+        </ion-tabs>
+    </ion-toolbar>
+</ion-footer>

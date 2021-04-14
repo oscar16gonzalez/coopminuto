@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>
+      Respuesta
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button>
+        <!-- <ion-icon slot="start" name="menu"></ion-icon> -->
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" style="width: 30%;">
+      <ion-button (click)="backMenu()">
+        <ion-icon slot="end" name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-img src="assets/icon/logo.png" style="width: 20%; height: 20%;"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="row form-group">
+    <div class="col-md-12">
+      <div class="tab-content" style="padding-top: 10px;">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="tittleCard">CARTA DE RESPUESTA</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="form-group" [innerHTML]="finalLetter"></div>
+            <div padding style="padding-top: 5%">
+              <div class="row m-3" *ngIf="sentEmail || sentSms">
+                <div class="col-md-12" *ngIf="sentEmail">
+                  <div class="alert alert-primary" role="alert">
+                    Ya se ha enviado por correo los documentos y la respuesta de esta solicitud.
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="sentSms">
+                  <div class="alert alert-primary" role="alert">
+                    Ya se ha enviado por mensaje de texto la respuesta de esta solicitud.
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-evidente m-1"
+                style="width: 100%; border-color: black; background-color: gray" (click)="finishIt()" expand="block">
+                Finalizar
+              </button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button *ngFor="let c of buttons" (click)="back(c.redirectTo)" [style.backgroundColor]="c.color">
+          <ion-icon class="custom-icon" [name]="c.icon"></ion-icon>
+          <ion-label style="color:white">{{c.name}}</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,421 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-title>
+            Detalles del Crédito
+        </ion-title>
+        <ion-buttons slot="end" style="width: 30%;">
+            <ion-button (click)="back('list-credits')">
+                <ion-icon slot="end" name="arrow-back"></ion-icon>
+            </ion-button>
+            <ion-img src="assets/icon/logo.png" style="width: 20%; height: 20%;"></ion-img>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <br>
+
+    <ion-card *ngIf="currentRequest > 0">
+        <ion-card-content class="contentCard">
+            <h5 class="name">DATOS CRÉDITO</h5>
+            <hr>
+            <div class="col-md-6">
+                <label class="form-group"><strong>Total monto:
+                    </strong>{{currentRequest.total_amount | currency}}</label><br>
+                <label class="form-group"><strong>Total cuota fija mensual:
+                    </strong>{{currentRequest.taxes[1].value | currency}}</label><br>
+                <label class="form-group"><strong>Total primera cuota:
+                    </strong>{{currentRequest.taxes[0].value | currency}}</label><br>
+                <label class="form-group"><strong>Total estudio de crédito:
+                    </strong>{{currentRequest.taxes[3].value | currency}}</label><br>
+                <label class="form-group"><strong>Garantía de Antioquia:
+                    </strong>{{currentRequest.taxes[4].value | currency}}</label><br>
+                <div class="cols">
+                    <div class="col1">
+                        <label class="form-group"><strong>Plazo: </strong>
+                            {{currentRequest['productTypeInterestTerm'].term}} Mes(es) </label><br>
+                    </div>
+                    <div class="col2">
+                        <label class="form-group"><strong>Interés: </strong> {{currentRequest.taxes[2].value}} %
+                        </label><br>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h5 class="name">TABLA DE PRODUCTOS</h5>
+            <hr>
+            <div class="scroll" scrollX="true">
+                <table class="table">
+                    <thead style="font-size: 14px">
+                        <tr>
+                            <th>Línea de Crédito</th>
+                            <th>Monto Solicitado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of currentRequest.list_of_products; let i = index;">
+                            <td>{{product.name | titlecase}}</td>
+                            <td>{{currentRequest.total_amount | currency}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th style="text-align: left;">Total:</th>
+                            <th>{{currentRequest.total_amount | currency}}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <hr>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="currentRequest">
+        <ion-card-content class="contentCard">
+            <h5 class="name">DATOS DEUDOR</h5>
+            <div class="cols">
+                <div style="padding: 10px">
+                    <hr>
+                    <label class="form-group"><strong>Fecha de nacimiento: </strong>
+                        {{currentRequest.applicants[0].birthday}}</label><br>
+                    <label class="form-group"><strong>Tipo Documento: </strong>
+                        {{currentRequest.applicants[0].documentType.description}}</label><br>
+                    <div class="cols">
+                        <div class="col1">
+                            <label class="form-group"><strong>Cédula: </strong>
+                                {{currentRequest.applicants[0].identification_number}}</label><br>
+                        </div>
+                        <div class="col2">
+                            <label class="form-group"><strong>Celular: </strong>
+                                {{currentRequest.applicants[0].cellphone}}</label><br>
+                        </div>
+                    </div>
+                    <label class="form-group"><strong>País de Expedición: </strong>
+                        {{currentRequest.applicants[0].expeditionPlaceCity.department.country.name}}</label><br>
+                    <label class="form-group"><strong>Ciudad de Expedición: </strong>
+                        {{currentRequest.applicants[0].expeditionPlaceCity.name}}</label><br>
+                    <label class="form-group"><strong>Departamento de Nacimiento: </strong>
+                        {{currentRequest.applicants[0].natalCity.department.name}}</label><br>
+                    <label class="form-group"><strong>Nombre Completo: </strong>
+                        {{currentRequest.applicants[0].fullname }}</label><br>
+                    <label class="form-group"><strong>Correo: </strong>
+                        {{currentRequest.applicants[0].email | lowercase}}</label><br>
+                    <label class="form-group"><strong>Sede Universitaria: </strong>
+                        {{currentRequest.applicants[0].universityCampus.cygnus_dependency | titlecase}}</label><br>
+                    <label class="form-group"><strong>Universidad: </strong>
+                        {{currentRequest.applicants[0].university.university_name  | titlecase}}</label><br>
+                    <label class="form-group"><strong>Fecha de Expedición: </strong>
+                        {{currentRequest.applicants[0].expedition_date}}</label><br>
+                    <label class="form-group"><strong>Departamento de Expedición: </strong>
+                        {{currentRequest.applicants[0].expeditionPlaceCity.department.name}}</label><br>
+                    <label class="form-group"><strong>Nacionalidad: </strong>
+                        {{currentRequest.applicants[0].natalCity.department.country.name}}</label><br>
+                    <label class="form-group"><strong>Municipio de Nacimiento: </strong>
+                        {{currentRequest.applicants[0].natalCity.name}}</label><br><br>
+
+                    <!-- INFO PERSONAL  -->
+                    <ng-container *ngIf="currentRequest.applicants[0].personalInformation[0]">
+                        <h5 class="name">INFORMACIÓN PERSONAL DEUDOR</h5>
+                        <hr>
+                        <div class="cols">
+                            <div class="col1">
+                                <label class="form-group"><strong>Sisbén: </strong>
+                                    {{ currentRequest.applicants[0].personalInformation[0].sisben === 1 ? 'Si' : 'No' }}</label><br>
+                                <label class="form-group"><strong>Cabeza de familia: </strong>
+                                    {{ currentRequest.applicants[0].personalInformation[0].householder === 1 ? 'Si' : 'No' }}</label><br>
+                            </div>
+                            <div class="col2">
+                                <label class="form-group"><strong>Nivel sisbén: </strong>
+                                    {{ currentRequest.applicants[0].personalInformation[0].sisben_level !== 0 ? currentRequest.applicants[1].personalInformation[0].sisben_level : 'No aplica' }}</label><br>
+                                <label class="form-group"><strong>Estrato: </strong>
+                                    {{ currentRequest.applicants[0].personalInformation[0].stratum }}</label><br>
+                            </div>
+                        </div>
+                        <label class="form-group"><strong>Personas Adultas a Cargo: </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].adult_persons_on_charge }}</label><br>
+                        <label class="form-group"><strong>Personas a cargo menores de 18 años: </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].minor_persons_on_charge }}</label><br>
+                        <label class="form-group"><strong>Dirección: </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].address }}</label><br>
+                        <label class="form-group"
+                            *ngIf="currentRequest.applicants[0].personalInformation[0].city.code != '0000';else elseResidenceNationality"><strong>Barrio:
+                            </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].neighborhood | titlecase }}</label><br>
+                        <ng-template #elseResidenceNationality>
+                            <label class="form-group"><strong>Otra Nacionalidad* : </strong>
+                                {{currentRequest.applicants[1].personalInformation[0].other_place | titlecase}}</label><br>
+                        </ng-template>
+                        <div class="cols">
+                            <div class="col1">
+                                <label class="form-group"><strong>País: </strong>
+                                    {{ currentRequest.applicants[0].personalInformation[0].city.department.country.name | titlecase }}</label><br>
+                            </div>
+                            <div class="col2">
+                                <label class="form-group"><strong>Municipio: </strong>
+                                    {{ currentRequest.applicants[0].personalInformation[0].city.name }}</label><br>
+                            </div>
+                        </div>
+                        <label class="form-group"><strong>Tipo de vivienda: </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].housing_type  }}</label><br>
+                        <label class="form-group"><strong>Departamento: </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].city.department.name }}</label><br>
+                        <label class="form-group"><strong>Tiempo en la vivienda (en meses): </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].livin_place_time }}</label><br>
+                        <label class="form-group"><strong>Tipo de vínculo con la organización minuto de Dios o IES
+                                aliadas:
+                            </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].copminuto_relationship_type | titlecase }}</label><br>
+                        <label class="form-group"><strong>Teléfono fijo: </strong>
+                            {{ currentRequest.applicants[0].personalInformation[0].home_phone }}</label><br><br>
+                    </ng-container>
+
+
+                    <!-- INFO LABORAL  -->
+                    <ng-container *ngIf="currentRequest.applicants[0].laborData[0]">
+                        <h5 class="name">INFORMACIÓN LABORAL DEUDOR</h5>
+                        <hr>
+                        <label class="form-group"><strong>Sección de la Actividad Económica: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].economicActivity.economicActivitySection.description | titlecase }}</label><br>
+                        <label class="form-group"><strong>Empleado/Independiente: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].employedState === 2 ? 'Empleado' : 'Independiente'}}</label><br>
+                        <label class="form-group"><strong>Actividad Económica: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].economicActivity.description | titlecase }}</label><br>
+                        <label class="form-group"><strong>Cargo: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].company_position | titlecase }}</label><br>
+                        <label class="form-group"><strong>Nombre Empresa: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].company_name  | titlecase }}</label><br>
+                        <label class="form-group"><strong>Teléfono Empresa: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].company_phone   | titlecase }}</label><br>
+                        <label class="form-group"><strong>Extensión: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].extension   | titlecase }}</label><br>
+                        <label class="form-group"><strong>Dirección laboral o del local comercial: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].company_address  | titlecase }}</label><br>
+                        <label class="form-group" *ngIf="currentRequest.applicants[0].laborData[0].ciudad 
+                        && currentRequest.applicants[1].laborData[0].departamento"><strong>Departamento Empresa:
+                            </strong>
+                            {{ currentRequest.applicants[0].laborData[0].departamento | titlecase }}</label><br>
+                        <label class="form-group"><strong>Ciudad Empresa: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].city.name  | titlecase }}</label><br>
+                        <label class="form-group"><strong>Departamento Empresa: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].city.department.name  | titlecase }}</label><br>
+                        <label class="form-group"><strong>Tipo de contrato: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].contract_type   | titlecase }}</label><br>
+                        <label class="form-group"><strong>Fecha de vinculación laboral o creación del negocio: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].admission_date  }}</label><br>
+                        <label class="form-group"><strong>Tiempo en la actividad: </strong>
+                            {{ currentRequest.applicants[0].laborData[0].activity_time }} meses</label><br>
+                    </ng-container>
+
+                    <!-- INFO FINANCIERA -->
+                    <ng-container *ngIf="currentRequest.applicants[0].financialInformation[0]">
+                        <h5 class="name">INFORMACIÓN FINANCIERA DEUDOR</h5>
+                        <hr>
+                        <label class="form-group"><strong>Salario: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].salary | currency:'COP':'symbol-narrow'}}</label><br>
+                        <label class="form-group"><strong>Ingresos por Arriendos: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].rental_incomming  | currency:'COP':'symbol-narrow'}}</label><br>
+                        <label class="form-group"><strong>Otros ingresos: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].others_incomming   | currency:'COP':'symbol-narrow'}}</label><br>
+                        <label class="form-group"><strong>Total Ingresos: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].total_incomming    | currency:'COP':'symbol-narrow'}}</label><br>
+                        <label class="form-group"><strong>Descripción de Otros Ingresos: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].others_incomming_description ? currentRequest.applicants[0].financialInformation[0].others_incomming_description : 'No aplica'  | titlecase}}</label><br>
+                        <label class="form-group"><strong>Gastos Personales: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].personal_expenses | currency:'COP':'symbol-narrow' }}</label><br>
+                        <label class="form-group"><strong>Obligaciones Crediticias: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].credit_expenses  | currency:'COP':'symbol-narrow' }}</label><br>
+                        <label class="form-group"><strong>Otros Egresos: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].others_expenses   | currency:'COP':'symbol-narrow' }}</label><br>
+                        <label class="form-group"><strong>Total Egresos: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].total_expenses    | currency:'COP':'symbol-narrow' }}</label><br>
+                        <label class="form-group"><strong>Descripción de Otros Egresos: </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].others_expenses_description ? currentRequest.applicants[0].financialInformation[0].others_expenses_description : 'No aplica'  }}</label><br>
+                        <div class="cols">
+                            <div class="col1">
+                                <label class="form-group"><strong>Activos: </strong>
+                                    {{ currentRequest.applicants[0].financialInformation[0].assets | currency:'COP':'symbol-narrow' }}</label><br>
+                            </div>
+                            <div class="col2">
+                                <label class="form-group"><strong>Pasivos: </strong>
+                                    {{ currentRequest.applicants[0].financialInformation[0].liabilities | currency:'COP':'symbol-narrow'  }}</label><br>
+                            </div>
+                        </div>
+                        <label class="form-group"><strong>¿Realiza operaciones internacionales y/o recibe giros o
+                                remesas en moneda extranjera? </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].abroad_operation === 1 ? 'Si' : 'No' }}</label><br>
+                        <label class="form-group"><strong>¿Posee cuentas en moneda extranjera?</strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].abroad_account_money === 1 ? 'Si' : 'No' }}</label><br>
+                        <label class="form-group"><strong>¿Maneja dineros públicos y/o es contratista de la nación,
+                                departamento, municipio o alguna entidad pública?
+                            </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].public_employed === 1 ? 'Si' : 'No' }}</label><br>
+                        <label class="form-group"><strong>¿Se considera usted persona públicamente expuesta y/o
+                                políticamente? </strong>
+                            {{ currentRequest.applicants[0].financialInformation[0].public_person === 1 ? 'Si' : 'No' }}</label><br>
+                        <ng-container
+                            *ngIf="currentRequest.applicants[0].financialInformation[0].public_person === 1; else elseTemplate">
+                            <label class="form-group"><strong>¿Considera usted que algun integrante de su familia(hasta
+                                    segundo grado de consanguinidad o
+                                    afinidad, es una persona pública y/o políticamente expuesta?
+                                </strong>
+                                {{ currentRequest.applicants[0].financialInformation[0].family_public_person === 1 ? 'Si' : 'No' }}</label><br>
+                            <label class="form-group"><strong>¿Se considera usted persona públicamente expuesta y/o
+                                    políticamente? </strong>
+                                {{ currentRequest.applicants[0].financialInformation[0].familyPublicName }}</label><br>
+                            <label class="form-group"><strong>Parentesco: </strong>
+                                {{ currentRequest.applicants[0].financialInformation[0].family_relationship  }}</label><br>
+                            <label class="form-group"><strong>Fuente de ingresos: </strong>
+                                {{ currentRequest.applicants[0].financialInformation[0].income_source | titlecase }}</label><br>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <label class="form-group"><strong>¿Considera usted que algun integrante de su familia(hasta
+                                    segundo grado de consanguinidad o
+                                    afinidad, es una persona pública y/o políticamente expuesta?: </strong>
+                                {{ currentRequest.applicants[0].financialInformation[0].family_public_person === 1 ? 'Si' : 'No' }}</label><br>
+                            <label class="form-group"><strong>Fuente de ingresos: </strong>
+                                {{ currentRequest.applicants[0].financialInformation[0].income_source | titlecase }}</label><br>
+                        </ng-template>
+                    </ng-container>
+
+                    <!-- INFO REFERENCIAS -->
+                    <ng-container *ngIf="currentRequest.applicants[0].applicantReferences[0]">
+                        <h5 class="name">REFENRCIAS PERSONALES</h5>
+                        <hr>
+                        <label class="form-group"><strong>Nombre: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[0].fullname | titlecase }}</label><br>
+                        <label class="form-group"><strong>Vínculo: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[0].bond  | titlecase }}</label><br>
+                        <label class="form-group"><strong>Celular: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[0].cellphone }}</label><br>
+                        <label class="form-group"><strong>Teléfono: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[0].homephone }}</label><br>
+                        <label class="form-group"><strong>Ciudad: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[0].city | titlecase }}</label><br>
+                    </ng-container>
+
+                    <ng-container *ngIf="currentRequest.applicants[0].applicantReferences[1]">
+                        <h5 class="name">REFENRCIAS FAMILIARES</h5>
+                        <hr>
+                        <label class="form-group"><strong>Nombre: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[1].fullname | titlecase }}</label><br>
+                        <label class="form-group"><strong>Vínculo: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[1].bond  | titlecase }}</label><br>
+                        <label class="form-group"><strong>Celular: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[1].cellphone }}</label><br>
+                        <label class="form-group"><strong>Teléfono: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[1].homephone }}</label><br>
+                        <label class="form-group"><strong>Ciudad: </strong>
+                            {{ currentRequest.applicants[0].applicantReferences[1].city | titlecase }}</label><br>
+                    </ng-container>
+                </div>
+            </div>
+            <br>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="currentRequest">
+        <ion-card-content class="contentCard">
+            <h5 class="name">DATOS DE SOLICITUD</h5>
+            <hr>
+            <label class="form-group"><strong>Ticket: </strong> {{currentRequest.ticket}}</label><br>
+            <label class="form-group"><strong>Fecha de la solicitud: </strong>
+                {{currentRequest.created_at | date}}</label><br>
+            <label class="form-group"><strong>Asesor asociado: </strong>{{currentRequest.user.name  }}</label><br>
+            <label class="form-group"><strong>Sede asociada: </strong>{{currentRequest.office.name }}</label><br>
+            <label class="form-group"><strong>IP de validación:: </strong>{{currentRequest.ip }}</label><br>
+            <div class="cols">
+                <div class="col1">
+                    <label class="form-group"><strong>Viabilidad: </strong>
+                        {{currentRequest.viability.description | titlecase}}</label><br>
+                </div>
+                <div class="col2">
+                    <label class="form-group"><strong>Estado: </strong>
+                        {{currentRequest.state.description | titlecase}}</label><br>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <div *ngFor="let item of currentRequest.answer_dynamic_form; let i = index;" class="col-md-12">
+                    <h5 class="name">{{item.name | uppercase}}</h5>
+                    <hr>
+                    <div class="row" id="datosItem-{{i}}">
+                        <div *ngFor="let res of item.values;" class="col-md-6">
+                            <label class="form-group">
+                                <strong>{{res.name | titlecase}} : </strong>
+                                {{res.value | titlecase}}
+                            </label><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ion-card-content>
+    </ion-card>
+
+    <!-- <ion-card>
+        <ion-card-content class="contentCard">
+            <div class="col-md-12">
+                <h5 class="name">DATOS CODEUDOR</h5>
+                <hr>
+                <div class="row form-group" *ngIf="!currentRequest?.coodeudors.length">
+                    <div class="col-sm" style="text-align: center">
+                        No tiene codeudor
+                    </div>
+                </div>
+                <div *ngFor="let codeudor of currentRequest?.coodeudors">
+                    <label class="form-group"><strong>Nombre completo: </strong> {{codeudor.first_name | titlecase}} {{codeudor.second_name | titlecase}} {{codeudor.first_surname | titlecase}} {{codeudor.second_surname | titlecase}}</label><br>
+                    <label class="form-group"><strong>Número de Celular: </strong> {{codeudor.cellphone}}</label><br>
+                    <label class="form-group"><strong>Correo Electrónico: </strong> {{codeudor.email | lowercase}}</label><br>
+                    <label class="form-group"><strong>Tipo Identificación: </strong> {{codeudor.documentType.description | titlecase}}</label><br>
+                    <label class="form-group"><strong>Número de Identificación: </strong> {{codeudor.identification_number}}</label><br>
+                </div>
+            </div>
+        </ion-card-content>
+    </ion-card> -->
+
+    <ion-card>
+        <ion-card-content class="contentCard">
+            <div class="col-md-12">
+                <h5 class="name">REQUISITOS SOLICITUD</h5>
+                <hr>
+                <div class="row form-group" *ngIf="!currentRequest?.responses.length">
+                    <div class="col-sm" style="text-align: center">
+                        No se han registrado requisitos para esta solicitud
+                    </div>
+                </div>
+                <div *ngFor="let att of currentRequest?.responses">
+                    <div class="col-md-12">
+                        <h5><strong>{{att.requirements_name | titlecase}}</strong></h5>
+                    </div>
+                    <div class="col-md-12">
+                        <div *ngFor="let res of att.value; let i = index;">
+                            <label class="form-group">
+                                {{att.elements[i].nombre}}:
+                                <i *ngIf="res.valor === ''">Datos sin ingresar</i>
+                                <i *ngIf="res.tipo !== 'file' && res.valor !== ''">{{res.valor}}</i>
+                                <img *ngIf="res.tipo === 'file' && res.ext !== ''"
+                                    style="width: 80%; height: 70%; margin-left: auto; margin-right: auto"
+                                    src="{{serverUrl}}/file/{{currentRequest.ticket}}/{{res.id}}.{{res.ext}}" />
+                            </label>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-tabs>
+            <ion-tab-bar slot="bottom">
+                <ion-tab-button *ngFor="let c of buttons" (click)="back(c.redirectTo)"
+                    [style.backgroundColor]="c.color">
+                    <ion-icon class="custom-icon" [name]="c.icon"></ion-icon>
+                    <ion-label style="color:white">{{c.name}}</ion-label>
+                </ion-tab-button>
+            </ion-tab-bar>
+        </ion-tabs>
+    </ion-toolbar>
+</ion-footer>

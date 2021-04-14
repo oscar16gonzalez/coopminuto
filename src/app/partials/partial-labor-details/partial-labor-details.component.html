@@ -1,0 +1,162 @@
+<form class="example-form" [formGroup]="form">
+  <ng-container formGroupName="laborDetails">
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Sección de la Actividad económica*:</mat-label>
+          <mat-select formControlName="economicActivitySection" id="economicActivitySection" name="economicActivitySection"
+            (selectionChange)="getEconomicActivitiesBySection($event.value)">
+            <mat-option *ngFor="let section of economicActivitiesSection" [value]="section.id">
+              {{section.section_name}} - {{section.description}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formlaboralDetails.get('economicActivitySection').invalid">
+            {{getError("economicActivitySection")}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <ng-container *ngIf="showEmployedState; else EconomicActivity">
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Empleado/Independiente*:</mat-label>
+          <mat-select formControlName="employedState" id="employedState" name="employedState">
+            <mat-option [value]=2>Empleado</mat-option>
+            <mat-option [value]=3>Independiente</mat-option>
+          </mat-select>
+          <mat-error *ngIf="formlaboralDetails.get('employedState').invalid">
+            {{getError("employedState")}}
+          </mat-error>
+        </mat-form-field>
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Actividad económica*:</mat-label>
+            <mat-select formControlName="economicActivity" id="economicActivity" name="economicActivity">
+              <mat-option *ngFor="let activity of economicActivities$ | async" [value]="activity.id">
+                {{activity.dian_code}} - {{activity.description}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formlaboralDetails.get('economicActivity').invalid">{{getError("economicActivity")}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <ng-template #EconomicActivity>
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Actividad económica*:</mat-label>
+            <mat-select formControlName="economicActivity" id="economicActivity" name="economicActivity">
+              <mat-option *ngFor="let activity of economicActivities$ | async" [value]="activity.id">
+                {{activity.dian_code}} - {{activity.description}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formlaboralDetails.get('economicActivity').invalid">{{getError("economicActivity")}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </ng-template>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Cargo*:</mat-label>
+        <input matInput placeholder="Cargo" formControlName="companyPosition" type="text" id="companyPosition" name="companyPosition">
+        <mat-error *ngIf="formlaboralDetails.get('companyPosition').invalid">{{getError("companyPosition")}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Nombre Empresa*:</mat-label>
+        <input matInput placeholder="Nombre Empresa" formControlName="companyName" type="text" id="companyName" name="companyName">
+        <mat-error appearance="outline" *ngIf="formlaboralDetails.get('companyName').invalid">
+          {{getError("companyName")}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Teléfono de la empresa*:</mat-label>
+        <input matInput placeholder="Teléfono  de la empresa" formControlName="companyPhone" type="text" id="companyPhone" name="companyPhone">
+        <mat-error *ngIf="formlaboralDetails.get('companyPhone').invalid">{{getError("companyPhone")}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Extensión*:</mat-label>
+        <input matInput placeholder="Extensión" formControlName="extension" type="text" appOnlynumber id="extension" name="extension">
+        <mat-error *ngIf="formlaboralDetails.get('extension').invalid">{{getError("extension")}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Dirección laboral o del local comercial*:</mat-label>
+        <input matInput placeholder="Dirección" formControlName="companyAddress" type="text" id="companyAddress" name="companyAddress">
+        <mat-error *ngIf="formlaboralDetails.get('companyAddress').invalid">{{getError("companyAddress")}}</mat-error>
+      </mat-form-field>
+    </div>
+    <ng-container *ngIf="!hiddenData">
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Departamento*:</mat-label>
+          <mat-select formControlName="department" class="col-12" id="laborDepartment" name="laborDepartment">
+            <mat-option *ngFor="let department of department$ | async" [value]="department">
+              {{ department.name | titlecase }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formlaboralDetails.get('department').invalid">{{ getError("department") }}
+          </mat-error>
+        </mat-form-field>
+        <ng-container *ngIf="departmentId == 34; else city">
+          <mat-form-field appearance="outline" class="col-md-12">
+            <mat-label>¿Cuál?*:</mat-label>
+            <input matInput placeholder="Departamento" formControlName="otherDepartment" type="text" id="otherDepartment" name="otherDepartment">
+            <mat-error appearance="outline" *ngIf="formlaboralDetails.get('otherDepartment').invalid">
+              {{getError("otherDepartment")}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-md-12">
+            <mat-label>Municipio/Ciudad*:</mat-label>
+            <input matInput placeholder="Municipio/Ciudad" formControlName="city" type="text" id="laborCity" name="laborCity">
+            <mat-error appearance="outline" *ngIf="formlaboralDetails.get('city').invalid">
+              {{getError("city")}}
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+      </div>
+      <ng-template #city>
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Municipio:*</mat-label>
+            <mat-select formControlName="city" class="col-12" id="laborCity" name="laborCity">
+              <mat-option *ngFor="let city of cities$ | async" [value]="city.id">
+                {{ city.name | titlecase }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formlaboralDetails.get('city').invalid">{{ getError("city") }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </ng-template>
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Tipo de contrato*:</mat-label>
+          <mat-select formControlName="contractType" id="contractType" name="contractType">
+            <mat-option *ngFor="let contract of contractsList" [value]="contract">
+              {{contract}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formlaboralDetails.get('contractType').invalid">{{getError("contractType")}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Fecha de vinculación laboral o creación del negocio:</mat-label>
+          <input matInput [matDatepicker]="dp3" readonly [max]="getToday()" formControlName="admissionDate" id="admissionDate" name="admissionDate"> 
+          <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+          <mat-datepicker #dp3></mat-datepicker>
+          <mat-error *ngIf="formlaboralDetails.get('admissionDate').invalid">{{getError("admissionDate")}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Tiempo en la actividad (en meses)*:</mat-label>
+          <input matInput placeholder="Tiempo en la actividad" formControlName="activityTime" type="number" min="0" appOnlynumber id="activityTime" name="activityTime">
+          <mat-error *ngIf="formlaboralDetails.get('activityTime').invalid">{{getError("activityTime")}}</mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </ng-container>
+</form>

@@ -1,0 +1,13 @@
+<div class="form-group row text-center" style="justify-content:center;">
+       <input type="submit" value="Actualizar requisitos" class="btn btn-primary input-tyc" (click)="processForm(true)"
+              [style.backgroundColor]="parametrics.button_color"
+              *ngIf="dataRequirements? dataRequirements.requirements.length > 0:false" />
+       <button mat-button *ngFor="let document of documentSigns" class="btn btn-primary" style="margin-left:5px;"
+              [style.backgroundColor]="parametrics.button_color"
+              (click)="openDialog(document.id)"> Ver {{ document.name_document }}</button>
+       <button mat-button class="btn btn-primary" *ngIf="showPromissoryNote && !promissoryNoteSigned" style="margin-left:5px;"
+              [style.backgroundColor]="parametrics.button_color"
+              (click)="openPromissoryNote()"> Ver pagaré</button>
+       <input type="submit" value="Continuar" class="btn btn-secondary customBtn input-tyc" name="allowTofinish"
+              (click)="finishProcess()" *ngIf="allowTofinish" />
+</div>

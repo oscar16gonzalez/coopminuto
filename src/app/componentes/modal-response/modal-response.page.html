@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Carta Respuesta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <br>
+  <ion-card>
+    <ion-card-title style="text-align: center">Carta de Respuesta</ion-card-title>
+  </ion-card>
+
+  <div class="modal-body">
+    <div class="form-group" [innerHTML]="finalLetter"></div>
+  </div>
+  <div padding style="padding-top: 2%; height: 10%;">
+    <button id="btnEnviar" type="submit" (click)="cerrarModal()" class="btn btn-primary btn-evidente"
+      [style.backgroundColor]="parametrics.button_color"
+      style="width: 100%; border-color: transparent;">ACEPTAR</button>
+  </div>
+</ion-content>

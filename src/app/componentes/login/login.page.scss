@@ -1,0 +1,139 @@
+video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.btn-login {
+    background-color: #00A8B5;
+    color: white;
+}
+
+.contenido {
+    --background: none;
+    // background-image: url("/assets/coopminuto/fondo.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: auto;
+}
+
+.page-centered-element {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+ion-item {
+    --border-color: white;
+}
+
+.content {
+    text-align: center;
+    color: white;
+    h1 {
+        font-size: 50px;
+    }
+    .buttons-container {
+        margin-top: 30px;
+        width: 90%;
+    }
+}
+
+.conten-login {
+    // padding-top: 25%
+    height: 100%;
+}
+
+.inputLogin {
+    color: black;
+}
+
+.icono {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+.iconoFooter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding-top: 40px;
+}
+
+.custom-icon {
+    font-size: 25px;
+    color: black;
+}
+
+.button {
+    border-color: white;
+    bottom: 0%;
+    top: 60%;
+}
+
+.olvidoContraseña {
+    width: 50%;
+    height: 5%;
+    left: 55%;
+    top: 15%;
+}
+
+.contenidoButton {
+    top: 22%;
+    height: 15%;
+}
+
+.contenidoContraseña {
+    width: 100%;
+    font-size: 12px;
+    color: white;
+    margin-left: 50%
+}
+
+ion-item {
+    --border-color: #ffffff;
+}
+
+.itemLogin {
+    top: 10%;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-centered-element {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// .content {
+//     text-align: center;
+//     color: white;
+//     h1 {
+//         font-size: 50px;
+//     }
+//     .buttons-container {
+//         margin-top: 30px;
+//     }
+// }

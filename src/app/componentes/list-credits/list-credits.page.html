@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>
+      Listar Créditos
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" style="width: 30%;">
+      <ion-button >  
+        <ion-icon slot="end" name=""></ion-icon>
+      </ion-button>
+      <ion-img src="assets/icon/logo.png" style="width: 20%; height: 20%;"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <br>
+  <ion-searchbar placeholder="Buscar" showCancelButton cancelButtonText="Custom Cancel"
+    (ionInput)="searchProduct($event)"></ion-searchbar>
+  <div style="padding-top: 15px">
+    <div class="row header"
+      style="background-color: #233E50; height: 34px; width: 99%; margin-left: auto; margin-right: auto">
+      <div class="name col">Nombre</div>
+      <div class="name col">Fecha</div>
+      <div class="name col">Estado</div>
+      <div class="name col">Viabilidad</div>
+    </div>
+    <div class="row" *ngFor="let item of lista; let i = index" style="width: 99%; margin-left: auto; margin-right: auto"
+      [ngStyle]="printBackground(i)">
+      <div class="col">{{item.first_name}} {{item.first_surname}}</div>
+      <div class="col">{{item.created_at}}</div>
+      <div class="col" hidden>{{item.identification_number}}</div>
+      <div class="col">{{item.state.description}}</div>
+      <div class="col" (click)="detail(item.id)">
+        <ion-icon slot="end" class="custom-icon-list" name="md-person" [ngStyle]="{'color':item.viability.color}"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom" >
+        <ion-tab-button *ngFor="let c of buttons"  (click)="back(c.redirectTo)" [style.backgroundColor]="c.color">
+          <ion-icon class="custom-icon" [name]="c.icon"></ion-icon>
+          <ion-label style="color:white">{{c.name}}</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

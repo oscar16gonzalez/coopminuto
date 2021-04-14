@@ -1,0 +1,41 @@
+<form [formGroup]="form">
+  <ng-container formGroupName="formPersonalReferences">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre y apellido*:</mat-label>
+          <input matInput placeholder="Nombre y apellido" formControlName="fullname" type="text" id="perRefFfullname" name="perRefFfullname">
+          <mat-error *ngIf="formPersonalReferences.get('fullname').invalid">{{getError("fullname")}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Vínculo*:</mat-label>
+          <input matInput placeholder="Vínculo" formControlName="bond" type="text" id="perRefBond" name="perRefBond">
+          <mat-error *ngIf="formPersonalReferences.get('bond').invalid">{{getError("bond")}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Ciudad*:</mat-label>
+          <input matInput placeholder="Ciudad" formControlName="city" type="text" id="perRefCity" name="perRefCity">
+          <mat-error *ngIf="formPersonalReferences.get('city').invalid">{{getError("city")}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Teléfono *:</mat-label>
+          <input matInput placeholder="Teléfono" formControlName="homephone" type="text" appOnlynumber id="perRefHome" name="perRefHome">
+          <mat-error *ngIf="formPersonalReferences.get('homephone').invalid">{{getError("homephone")}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Celular*:</mat-label>
+          <input matInput placeholder="Celular" formControlName="cellphone" type="text" appOnlynumber id="perRefCellophone" name="perRefCellphone">
+          <mat-error *ngIf="formPersonalReferences.get('cellphone').invalid">{{getError("cellphone")}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-container>
+</form>

@@ -1,0 +1,172 @@
+// http://ionicframework.com/docs/theming/
+@import '~@ionic/angular/css/core.css';
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
+.alert-button-group.sc-ion-alert-md {
+    // background-color: #7A7979;
+    background-color: rgb(250, 185, 0)
+
+}
+
+.alert-button-inner.sc-ion-alert-md {
+    color: white;
+    // text-align: center
+}
+
+.alert-title.sc-ion-alert-md {
+    color: var(--ion-text-color, white);
+    text-align: center
+}
+
+.alert-head.sc-ion-alert-md {
+    background-color: #ffffff
+}
+
+.alert-input-group{
+    text-transform: none;
+}
+
+.alert-head.sc-ion-alert-md+.alert-message.sc-ion-alert-md {
+    background-color: #233E50
+}
+
+.alert-input.sc-ion-alert-md {
+    background-color: #ffffff;
+    text-transform: none;
+}
+
+.alert-input-group {
+    background-color: #ffffff;
+}
+
+.alert-sub-title {
+    text-align: center;
+}
+
+.alert-sub-title.sc-ion-alert-md,
+.alert-title.sc-ion-alert-md {
+    color: black;
+}
+
+.alert-input.sc-ion-alert-md {
+    background-color: #ffffff;
+}
+
+.input-tyc {
+    text-transform: none !important;
+  }
+
+.listQuestion {
+    margin-left: 30px;
+    // margin-right: 0;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 8px;
+    // border: 1px solid #233E50;
+    padding-bottom: 8px;
+    border-radius: 20px;
+    background: var(--ion-item-background, var(--ion-background-color, #fff));
+}
+
+.alert-button.sc-ion-alert-md {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.swiper-container-horizontal>.swiper-pagination-bullets,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+    bottom: 1px;
+    left: 0;
+    width: 100%;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: rgb(250, 185, 0)
+}
+
+.custom-control-label::after {
+    position: absolute;
+    top: 0.25rem;
+    left: -1.5rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    content: "";
+    background: no-repeat 50% / 50% 50%;
+    background-color: red;
+}
+
+ion-card-header+.card-content-md {
+    padding-top: 35px;
+}
+
+.card-content-md p {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 2px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: justify;
+    color: black;
+}
+
+* {
+    // text-align: justify;
+    color: black
+}
+
+.col {
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    max-width: 100%;
+    text-align: center;
+    font-size: smaller;
+    align-self: center;
+}
+
+td,
+th {
+    padding: 0;
+    font-size: smaller;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    font-size: small;
+    border-top: 1px solid #dee2e6;
+}
+
+.toast-header {
+    color: white !important;
+}
+
+mat-error {
+    font-size: 10px;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle{
+    background-color: rgb(250, 185, 0);
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    border-color: rgb(250, 185, 0);
+}
+
+* {
+    text-transform: uppercase;
+}
